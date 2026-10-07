@@ -10,7 +10,7 @@ A self-supervised denoising tool for metaphase and anaphase microscopy images. I
 
 ## What this is
 
-Most image denoising models are trained on pairs of (noisy, clean) images. Real microscope images almost never come with a matching clean version so this project instead uses a **blind-spot self-supervised training scheme (inspired by Noise2Void): a small UNet is trained to predict the true value of randomly hidden pixels, using only their surrounding context. Since real structure is spatially predictable and noise is not, the network learns to reconstruct structure and suppress noise, with no clean reference images required at any point.
+Most image denoising models are trained on pairs of (noisy, clean) images. Real microscope images almost never come with a matching clean version so this project instead uses a blind-spot self-supervised training scheme (inspired by Noise2Void): a small UNet is trained to predict the true value of randomly hidden pixels, using only their surrounding context. Since real structure is spatially predictable and noise is not, the network learns to reconstruct structure and suppress noise, with no clean reference images required at any point.
 
 ## How it works
 
