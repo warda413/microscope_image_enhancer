@@ -1,0 +1,17 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Dataset images (see README for source)
+Data/Raw/
+
+# Keep only the best model checkpoints, exclude work-in-progress ones
+checkpoints/latest.pth
+checkpoints_128/latest.pth
