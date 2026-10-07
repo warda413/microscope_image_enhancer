@@ -1,6 +1,6 @@
 # Microscope Image Enhancer
 
-A self-supervised denoising tool for metaphase and anaphase microscopy images. It cleans up noisy or low-quality microscope images **without requiring paired clean/noisy training data** — a common bottleneck in real microscopy datasets, where a genuinely "clean" reference image rarely exists for the same field of view.
+A self-supervised denoising tool for metaphase and anaphase microscopy images. It cleans up noisy or low-quality microscope images without requiring paired clean/noisy training data a common bottleneck in real microscopy datasets, where a genuinely "clean" reference image rarely exists for the same field of view.
 
 ![Python](https://img.shields.io/badge/python-3.14-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.14-orange)
@@ -10,14 +10,14 @@ A self-supervised denoising tool for metaphase and anaphase microscopy images. I
 
 ## What this is
 
-Most image denoising models are trained on pairs of (noisy, clean) images. Real microscope images almost never come with a matching clean version — so this project instead uses a **blind-spot self-supervised training scheme** (inspired by Noise2Void): a small UNet is trained to predict the true value of randomly hidden pixels, using only their surrounding context. Since real structure is spatially predictable and noise is not, the network learns to reconstruct structure and suppress noise, with no clean reference images required at any point.
+Most image denoising models are trained on pairs of (noisy, clean) images. Real microscope images almost never come with a matching clean version so this project instead uses a **blind-spot self-supervised training scheme (inspired by Noise2Void): a small UNet is trained to predict the true value of randomly hidden pixels, using only their surrounding context. Since real structure is spatially predictable and noise is not, the network learns to reconstruct structure and suppress noise, with no clean reference images required at any point.
 
 ## How it works
 
-1. **Masking (training only)** — for every training patch, ~2% of pixels are randomly hidden and replaced with a nearby pixel's value. The network must recover the true value at exactly those hidden spots, using only the surrounding context.
-2. **Architecture** — a UNet (~1.93M parameters): 3 encoder stages that shrink the image while extracting increasingly abstract structure, a bottleneck, and 3 decoder stages that rebuild full resolution, aided by skip connections that preserve fine detail lost during shrinking.
-3. **Inference** — a trained model only understands fixed-size patches, so full-size images are processed using an overlapping sliding window, blended smoothly (Hann-window weighting) to avoid visible tile seams.
-4. **The app** — a Gradio-based drag-and-drop interface wraps the trained model for direct use, no code required.
+1. Masking (training only) for every training patch, ~2% of pixels are randomly hidden and replaced with a nearby pixel's value. The network must recover the true value at exactly those hidden spots, using only the surrounding context.
+2. Architecture a UNet (~1.93M parameters): 3 encoder stages that shrink the image while extracting increasingly abstract structure, a bottleneck, and 3 decoder stages that rebuild full resolution, aided by skip connections that preserve fine detail lost during shrinking.
+3. Inference a trained model only understands fixed-size patches, so full-size images are processed using an overlapping sliding window, blended smoothly (Hann-window weighting) to avoid visible tile seams.
+4. The app a Gradio-based drag-and-drop interface wraps the trained model for direct use, no code required.
 
 ## Dataset
 
@@ -39,7 +39,7 @@ Two identical UNet architectures were trained under the same self-supervised sch
 | **Model A (winner)** | 64×64 | 56,350 | **0.000117** | 0.000060 | 0.000032 | 0.000431 |
 | Model B | 128×128 | 9,016 | 0.000217 | 0.000117 | 0.000076 | 0.001020 |
 
-**Finding:** training on randomly-positioned 64×64 sub-crops outperformed training on fixed full-size 128×128 images across every metric, likely due to substantially greater training data diversity (56,350 vs. 9,016 effective examples), despite each individual example containing less whole-image context. **Model A is used in the deployed app.**
+Finding: training on randomly-positioned 64×64 sub-crops outperformed training on fixed full-size 128×128 images across every metric, likely due to substantially greater training data diversity (56,350 vs. 9,016 effective examples), despite each individual example containing less whole-image context. Model A is used in the deployed app.
 
 Both models were trained for 20 epochs (Adam, lr=1e-4, batch size 16, CPU) with the same stratified test set (143 images, never seen during training or validation) used for final evaluation.
 
@@ -72,23 +72,23 @@ pip install -r requirements.txt
 
 ## Usage
 
-**Train:**
+Train:
 ```bash
 cd src
 python train.py
 ```
 
-**Evaluate on the test set:**
+Evaluate on the test set:
 ```bash
 python evaluate.py
 ```
 
-**Generate loss plots:**
+Generate loss plots:
 ```bash
 python plot_training.py
 ```
 
-**Run the app:**
+Run the app:
 ```bash
 python app.py
 ```
@@ -113,6 +113,6 @@ Training and validation loss both decreased steadily and plateaued by epoch ~17,
 
 ## Acknowledgements
 
-- Self-supervised masking scheme inspired by **Noise2Void** (Krull et al., 2019).
+- Self-supervised masking scheme inspired by Noise2Void (Krull et al., 2019).
 - Architecture based on **UNet** (Ronneberger et al., 2015).
 - Dataset images sourced from the **MIDOG 2021** and **TUPAC16** challenges.
